@@ -1,7 +1,9 @@
 package com.sagar.jpa.core
 
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestController
@@ -19,6 +21,24 @@ class CustomResponseEntityHandler : ResponseEntityExceptionHandler() {
                         "error..."
                 ),
                 HttpStatus.INTERNAL_SERVER_ERROR
+        )
+    }
+
+    override fun handleMethodArgumentNotValid(
+            ex: MethodArgumentNotValidException,
+            headers: HttpHeaders,
+            status: HttpStatus,
+            request: WebRequest
+    ): ResponseEntity<Any> {
+        var errorMessage = "Bad Req"
+        ex.bindingResult.fieldErrors.forEach {
+            errorMessage = it.defaultMessage ?: "Bad Req"
+        }
+        return ResponseEntity(
+                ExceptionResponse(
+                        errorMessage
+                ),
+                HttpStatus.BAD_REQUEST
         )
     }
 }

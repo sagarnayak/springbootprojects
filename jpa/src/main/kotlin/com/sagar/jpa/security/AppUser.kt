@@ -1,10 +1,11 @@
 package com.sagar.jpa.security
 
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class AppUser(
-    private val grantedAuthority: MutableCollection<out GrantedAuthority>,
+    private val grantedAuthority: Set<SimpleGrantedAuthority>,
     private val password: String,
     private val userName: String,
     private val isAccountNonExpired: Boolean,
@@ -13,8 +14,8 @@ class AppUser(
     private val isEnabled: Boolean
 ) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return grantedAuthority
+    override fun getAuthorities(): Set<SimpleGrantedAuthority> {
+       return grantedAuthority
     }
 
     override fun getPassword(): String {

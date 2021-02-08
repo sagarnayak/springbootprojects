@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 
 @Configuration
 @EnableWebSecurity
@@ -19,11 +19,21 @@ class AppSecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
+    @Autowired
+    private lateinit var appUserService: AppUserService
+
+    @Autowired
+    private lateinit var jwtConfig: JWTConfig
+
     override fun configure(http: HttpSecurity?) {
         @Suppress("SimpleRedundantLet")
         http?.let {
             it
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(JWTUsernameAndPasswordAuthenticationFilter(authenticationManager(),jwtConfig))
+                .addFilterAfter(JWTVerifier(jwtConfig), JWTUsernameAndPasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/admin").hasAuthority(AppUserPermission.ADMIN_WRITE.permission)
                 .antMatchers(HttpMethod.PUT, "/admin").hasAuthority(AppUserPermission.ADMIN_WRITE.permission)
@@ -38,29 +48,15 @@ class AppSecurityConfig : WebSecurityConfigurerAdapter() {
         }
     }
 
+    override fun configure(auth: AuthenticationManagerBuilder) {
+        auth.authenticationProvider(authProvider())
+    }
+
     @Bean
-    override fun userDetailsService(): UserDetailsService {
-        val user1 = User
-            .builder()
-            .username("user1")
-            .password(passwordEncoder.encode("password"))
-            .authorities(AppUserRole.USER.getGrantedAuthorities())
-            .build()
-
-        val admin1 = User
-            .builder()
-            .username("admin1")
-            .password(passwordEncoder.encode("password"))
-            .authorities(AppUserRole.ADMIN.getGrantedAuthorities())
-            .build()
-
-        val adminTrainee1 = User
-            .builder()
-            .username("adminTrainee1")
-            .password(passwordEncoder.encode("password"))
-            .authorities(AppUserRole.ADMIN_TRAINEE.getGrantedAuthorities())
-            .build()
-
-        return InMemoryUserDetailsManager(user1, admin1, adminTrainee1)
+    fun authProvider(): DaoAuthenticationProvider {
+        val daoAuthProvider = DaoAuthenticationProvider()
+        daoAuthProvider.setPasswordEncoder(passwordEncoder)
+        daoAuthProvider.setUserDetailsService(appUserService)
+        return daoAuthProvider
     }
 }

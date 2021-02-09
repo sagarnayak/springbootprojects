@@ -2,6 +2,8 @@ package com.sagar.jpa.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sagar.jpa.entities.UsernameAndPassword
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.security.authentication.AuthenticationManager
@@ -10,6 +12,9 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import java.sql.Date
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
+import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -38,18 +43,36 @@ class JWTUsernameAndPasswordAuthenticationFilter(
         chain: FilterChain,
         authResult: Authentication
     ) {
+        val key = Keys.hmacShaKeyFor(
+            jwtConfig.secretkey.toByteArray()
+        )
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.MINUTE,2)
+        val date = Date(cal.timeInMillis)
         val token = Jwts
             .builder()
             .setSubject(authResult.name)
             .claim("authorities", "value")
-            .setExpiration(Date.valueOf(LocalDate.now().plusWeeks(2)))
+            .setExpiration(date)
             .signWith(
-                Keys.hmacShaKeyFor(
-                    jwtConfig.secretkey.toByteArray()
-                )
+                key
             )
             .compact()
+        var sign = ""
+        try {
+            val claimsJWS: Jws<Claims> = Jwts
+                .parserBuilder()
+                .setSigningKey(
+                    key
+                )
+                .build()
+                .parseClaimsJws(token)
 
+            sign = claimsJWS.signature
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        println("the result ${sign}")
         response.addHeader(
             "Authorization",
             "Bearer $token"

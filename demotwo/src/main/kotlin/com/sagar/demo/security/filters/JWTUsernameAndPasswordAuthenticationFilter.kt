@@ -41,23 +41,22 @@ class JWTUsernameAndPasswordAuthenticationFilter(
         chain: FilterChain,
         authResult: Authentication
     ) {
-        val key = Keys.hmacShaKeyFor(
-            jwtConfig.secretkey.toByteArray()
-        )
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.MINUTE, 2)
-        val date = Date(cal.timeInMillis)
-        val token = Jwts
-            .builder()
-            .setSubject(authResult.name)
-            .claim("authorities", "value")
-            .setExpiration(date)
-            .signWith(
-                key
-            )
-            .compact()
-        var sign = ""
         try {
+            val key = Keys.hmacShaKeyFor(
+                jwtConfig.secretkey.toByteArray()
+            )
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.MINUTE, 2)
+            val date = Date(cal.timeInMillis)
+            val token = Jwts
+                .builder()
+                .setSubject(authResult.name)
+                .claim("authorities", "value")
+                .setExpiration(date)
+                .signWith(
+                    key
+                )
+                .compact()
             val claimsJWS: Jws<Claims> = Jwts
                 .parserBuilder()
                 .setSigningKey(
@@ -65,15 +64,15 @@ class JWTUsernameAndPasswordAuthenticationFilter(
                 )
                 .build()
                 .parseClaimsJws(token)
-
+            var sign = ""
             sign = claimsJWS.signature
+            println("the result ${sign}")
+            response.addHeader(
+                "Authorization",
+                "Bearer $token"
+            )
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
-        println("the result ${sign}")
-        response.addHeader(
-            "Authorization",
-            "Bearer $token"
-        )
     }
 }

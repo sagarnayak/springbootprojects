@@ -1,6 +1,8 @@
 package com.sagar.demo.security.services
 
 import com.sagar.demo.repositories.StudentRepository
+import com.sagar.demo.security.entity.AppUser
+import com.sagar.demo.security.roles.AppUserRole
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -18,7 +20,7 @@ class AppUserService : UserDetailsService {
 
     override fun loadUserByUsername(p0: String): UserDetails {
         return when (p0) {
-           /* "user1" -> {
+            "user1" -> {
                 AppUser(
                     AppUserRole.USER.getGrantedAuthorities(),
                     passwordEncoder.encode("password"),
@@ -50,7 +52,7 @@ class AppUserService : UserDetailsService {
                     true,
                     true
                 )
-            }*/
+            }
             else -> {
                 throw RuntimeException("no user found")
             }

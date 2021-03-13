@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.domain.Sort
 
 @Configuration
 class CommandLineAppStartupRunner : CommandLineRunner {

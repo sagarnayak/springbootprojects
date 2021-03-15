@@ -52,7 +52,8 @@ class AppSecurityConfig : WebSecurityConfigurerAdapter() {
                     "/swagger-ui/**",
                     "/swagger-ui.html",
                     "/swagger-resources/**",
-                    "/webjars/**"
+                    "/webjars/**",
+                    "/hello/sendEmail"
                 ).permitAll()
                 .anyRequest().authenticated()
         }

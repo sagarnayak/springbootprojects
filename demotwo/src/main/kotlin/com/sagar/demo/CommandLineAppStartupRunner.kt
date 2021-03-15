@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
+import org.springframework.mail.javamail.JavaMailSenderImpl
+import java.util.*
+
 
 @Configuration
 class CommandLineAppStartupRunner : CommandLineRunner {
@@ -57,7 +60,7 @@ class CommandLineAppStartupRunner : CommandLineRunner {
                  )
          )*/
 
-        studentRepository.findById("8d8a1a30-ce35-4a8f-9656-1f1e8094064e").apply {
+       /* studentRepository.findById("8d8a1a30-ce35-4a8f-9656-1f1e8094064e").apply {
             if (!this.isPresent)
                 return
 
@@ -69,11 +72,28 @@ class CommandLineAppStartupRunner : CommandLineRunner {
                 student.passport = this.get()
                 studentRepository.save(student)
             }
-        }
+        }*/
+
+        sendMail()
     }
 
     companion object {
         private val LOG: org.slf4j.Logger = LoggerFactory.getLogger(CommandLineAppStartupRunner::class.java)
         var counter = 0
+    }
+
+    private fun sendMail(){
+        val mailSender = JavaMailSenderImpl()
+        mailSender.host = "smtp.gmail.com"
+        mailSender.port = 587
+
+        mailSender.username = "my.gmail@gmail.com"
+        mailSender.password = "password"
+
+        val props: Properties = mailSender.javaMailProperties
+        props["mail.transport.protocol"] = "smtp"
+        props["mail.smtp.auth"] = "true"
+        props["mail.smtp.starttls.enable"] = "true"
+        props["mail.debug"] = "true"
     }
 }

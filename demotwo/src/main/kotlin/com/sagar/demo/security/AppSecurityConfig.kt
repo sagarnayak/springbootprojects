@@ -46,10 +46,15 @@ class AppSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.DELETE, "/database").hasAuthority(AppUserPermission.ADMIN_WRITE.permission)
                 .antMatchers(HttpMethod.GET, "/database")
                 .hasAnyRole(AppUserRole.ADMIN.name, AppUserRole.ADMIN_TRAINEE.name)
-                .antMatchers("/", "/index", "/swagger-ui", "/swagger-ui/#").permitAll()
+                .antMatchers(
+                    "/v2/api-docs",
+                    "/swagger-ui/index.html",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/swagger-resources/**",
+                    "/webjars/**"
+                ).permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .httpBasic()
         }
     }
 

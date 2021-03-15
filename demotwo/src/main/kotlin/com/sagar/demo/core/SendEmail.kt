@@ -8,9 +8,9 @@ class SendEmail {
 
     @Async
     fun sendEmail() {
-        (1..90).forEach {
-            (1..90).forEach {
-                Thread.sleep(500)
+        (1..2).forEach {
+            (1..2).forEach {
+                Thread.sleep(1000)
                 print("running ...")
             }
         }

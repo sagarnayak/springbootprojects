@@ -88,7 +88,7 @@ class CommandLineAppStartupRunner : CommandLineRunner {
             mailSender.host = "smtp.gmail.com"
             mailSender.port = 587
 
-            mailSender.username = "sknfreelancer@gmail.com"
+            mailSender.username = "yoursmtpclientmail@gmail.com"
             mailSender.password = ""
 
             val props: Properties = mailSender.javaMailProperties

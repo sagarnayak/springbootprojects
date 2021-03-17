@@ -1,6 +1,5 @@
 package com.sagar.demo
 
-import com.sagar.demo.entities.Student
 import com.sagar.demo.repositories.CourseRepository
 import com.sagar.demo.repositories.PassportRepository
 import com.sagar.demo.repositories.ReviewRepository
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Configuration
+import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import java.util.*
 
@@ -60,19 +60,19 @@ class CommandLineAppStartupRunner : CommandLineRunner {
                  )
          )*/
 
-       /* studentRepository.findById("8d8a1a30-ce35-4a8f-9656-1f1e8094064e").apply {
-            if (!this.isPresent)
-                return
+        /* studentRepository.findById("8d8a1a30-ce35-4a8f-9656-1f1e8094064e").apply {
+             if (!this.isPresent)
+                 return
 
-            val student: Student = this.get()
-            passportRepository.findById("492a018e-b2ec-44dd-9c9c-0d301fd36b52").apply {
-                if (!this.isPresent)
-                    return
+             val student: Student = this.get()
+             passportRepository.findById("492a018e-b2ec-44dd-9c9c-0d301fd36b52").apply {
+                 if (!this.isPresent)
+                     return
 
-                student.passport = this.get()
-                studentRepository.save(student)
-            }
-        }*/
+                 student.passport = this.get()
+                 studentRepository.save(student)
+             }
+         }*/
 
         sendMail()
     }
@@ -82,18 +82,31 @@ class CommandLineAppStartupRunner : CommandLineRunner {
         var counter = 0
     }
 
-    private fun sendMail(){
-        val mailSender = JavaMailSenderImpl()
-        mailSender.host = "smtp.gmail.com"
-        mailSender.port = 587
+    private fun sendMail() {
+        try {
+            val mailSender = JavaMailSenderImpl()
+            mailSender.host = "smtp.gmail.com"
+            mailSender.port = 587
 
-        mailSender.username = "my.gmail@gmail.com"
-        mailSender.password = "password"
+            mailSender.username = "sknfreelancer@gmail.com"
+            mailSender.password = ""
 
-        val props: Properties = mailSender.javaMailProperties
-        props["mail.transport.protocol"] = "smtp"
-        props["mail.smtp.auth"] = "true"
-        props["mail.smtp.starttls.enable"] = "true"
-        props["mail.debug"] = "true"
+            val props: Properties = mailSender.javaMailProperties
+            props["mail.transport.protocol"] = "smtp"
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.starttls.enable"] = "true"
+            props["mail.debug"] = "true"
+
+            val simpleMailMessage = SimpleMailMessage()
+            simpleMailMessage.apply {
+                setFrom("sagar@gmail.com")
+                setTo("snkumar.nayak@gmail.com")
+                setSubject("testing...")
+                setText("This is a test.")
+                mailSender.send(simpleMailMessage)
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
     }
 }

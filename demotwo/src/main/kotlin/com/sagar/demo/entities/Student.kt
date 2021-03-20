@@ -1,5 +1,6 @@
 package com.sagar.demo.entities
 
+import com.fasterxml.jackson.annotation.JsonFilter
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.sql.Timestamp
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size
 import kotlin.collections.ArrayList
 
 @Entity(name = "student")
+@JsonFilter("someFilter")
 data class Student(
     @Id
     var id: String = UUID.randomUUID().toString(),

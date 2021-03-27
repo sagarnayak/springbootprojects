@@ -2,5 +2,6 @@ package com.sagar.spring.microservice.model
 
 data class Limit(
     var min: Int,
-    var max: Int
+    var max: Int,
+    var environmentValue : String
 )

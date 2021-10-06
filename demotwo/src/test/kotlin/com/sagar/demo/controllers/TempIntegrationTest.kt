@@ -15,13 +15,13 @@ class TempIntegrationTest {
     @Test
     fun getTempItems() {
         val result = testRestTemplate.getForObject(
-            "/temp",
-            String::class.java
+                "/temp",
+                String::class.java
         )
         JSONAssert.assertEquals(
-            "[{id:d78f6v9od8ifvyd},{id:d78f6v9od8idfvdfvfvyd},{id:d78f6v9odfvdfvdfvdfvd8ifvyd},{id:dfvdfvdfvdfvdfv},{id:fdvdfvdfvdf4564}]",
-            result,
-            false
+                "[{id:d78f6v9od8ifvyd},{id:d78f6v9od8idfvdfvfvyd},{id:d78f6v9odfvdfvdfvdfvd8ifvyd},{id:dfvdfvdfvdfvdfv},{id:fdvdfvdfvdf4564}]",
+                result,
+                false
         )
     }
 }

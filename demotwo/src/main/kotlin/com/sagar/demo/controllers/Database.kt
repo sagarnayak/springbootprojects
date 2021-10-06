@@ -23,8 +23,8 @@ class Database {
         val students = studentRepository.findAll()
         val mappingJacksonValueClass = MappingJacksonValue(students)
         val filter = SimpleFilterProvider().addFilter(
-            "someFilter",
-            SimpleBeanPropertyFilter.filterOutAllExcept("first_name", "last_name")
+                "someFilter",
+                SimpleBeanPropertyFilter.filterOutAllExcept("first_name", "last_name")
         )
         mappingJacksonValueClass.filters = filter
         print(students.toString())
@@ -35,7 +35,7 @@ class Database {
     fun addUser(@Valid @RequestBody student: Student): ResponseEntity<Student> {
         val savedStudent = studentRepository.save(student)
         return ResponseEntity.created(
-            ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedStudent.id).toUri()
+                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedStudent.id).toUri()
         ).build()
     }
 }

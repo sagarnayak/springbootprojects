@@ -27,12 +27,18 @@ class JWTUsernameAndPasswordAuthenticationFilter(
         val usernameAndPassword: UsernameAndPassword =
             ObjectMapper().readValue(request.inputStream, UsernameAndPassword::class.java)
 
-        return authManager.authenticate(
-            UsernamePasswordAuthenticationToken(
-                usernameAndPassword.userName,
-                usernameAndPassword.password
+        try {
+            return authManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                    usernameAndPassword.userName,
+                    usernameAndPassword.password
+                )
             )
-        )
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+
+            throw Exception("This is a test")
+        }
     }
 
     override fun successfulAuthentication(

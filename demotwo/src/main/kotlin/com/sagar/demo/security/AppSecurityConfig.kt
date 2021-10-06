@@ -2,6 +2,7 @@ package com.sagar.demo.security
 
 import com.sagar.demo.security.authorities.AppUserPermission
 import com.sagar.demo.security.entity.JWTConfig
+import com.sagar.demo.security.filters.CustomFilter
 import com.sagar.demo.security.filters.JWTUsernameAndPasswordAuthenticationFilter
 import com.sagar.demo.security.roles.AppUserRole
 import com.sagar.demo.security.services.AppUserService
@@ -17,9 +18,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 class AppSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
@@ -46,6 +48,9 @@ class AppSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers(HttpMethod.DELETE, "/database").hasAuthority(AppUserPermission.ADMIN_WRITE.permission)
                 .antMatchers(HttpMethod.GET, "/database")
                 .hasAnyRole(AppUserRole.ADMIN.name, AppUserRole.ADMIN_TRAINEE.name)
+                .and()
+                .addFilterAfter(CustomFilter(), FilterSecurityInterceptor::class.java)
+                .authorizeRequests()
                 .antMatchers(
                     "/v2/api-docs",
                     "/swagger-ui/index.html",

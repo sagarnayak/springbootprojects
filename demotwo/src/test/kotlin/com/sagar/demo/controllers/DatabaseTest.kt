@@ -23,15 +23,15 @@ class DatabaseTest {
     @Test
     fun testMocking() {
         Mockito.`when`(studentRepository.findAll())
-            .thenReturn(arrayListOf(Student(first_name = "sagar", last_name = "kumar")))
+                .thenReturn(arrayListOf(Student(first_name = "sagar", last_name = "kumar")))
 
         val requestBuilder = MockMvcRequestBuilders
-            .get("/database")
+                .get("/database")
 
         mockMvc
-            .perform(requestBuilder)
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json("[{first_name:sagar,last_name:kumar}]"))
-            .andReturn()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json("[{first_name:sagar,last_name:kumar}]"))
+                .andReturn()
     }
 }

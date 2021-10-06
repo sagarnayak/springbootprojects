@@ -12,11 +12,11 @@ class TemporaryEntityRepositoryTest {
     private lateinit var temporaryEntityRepository: TemporaryEntityRepository
 
     @Test
-    fun testOne(){
+    fun testOne() {
         val result = temporaryEntityRepository.findAll()
         Assertions.assertEquals(
-            result.size,
-            5
+                result.size,
+                5
         )
     }
 }

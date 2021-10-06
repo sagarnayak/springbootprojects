@@ -17,14 +17,14 @@ import javax.servlet.http.HttpServletResponse
 class JWTVerifier(private val jwtConfig: JWTConfig) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
+            request: HttpServletRequest,
+            response: HttpServletResponse,
+            filterChain: FilterChain
     ) {
         val header = request.getHeader("Authorization")
 
         val key = Keys.hmacShaKeyFor(
-            jwtConfig.secretkey.toByteArray()
+                jwtConfig.secretkey.toByteArray()
         )
 
         if (Strings.isNullOrEmpty(header) || !header.startsWith("Bearer ")) {
@@ -36,19 +36,19 @@ class JWTVerifier(private val jwtConfig: JWTConfig) : OncePerRequestFilter() {
             val token = header.replace("Bearer ", "")
 
             val claimsJWS: Jws<Claims> = Jwts
-                .parserBuilder()
-                .setSigningKey(
-                    key
-                )
-                .build()
-                .parseClaimsJws(token)
+                    .parserBuilder()
+                    .setSigningKey(
+                            key
+                    )
+                    .build()
+                    .parseClaimsJws(token)
 
             val body = claimsJWS.body
 
             SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
-                "admin1",
-                null,
-                AppUserRole.ADMIN.getGrantedAuthorities()
+                    "admin1",
+                    null,
+                    AppUserRole.ADMIN.getGrantedAuthorities()
             )
         } catch (ex: Exception) {
             ex.printStackTrace()

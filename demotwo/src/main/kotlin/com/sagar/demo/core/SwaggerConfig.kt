@@ -15,16 +15,16 @@ class SwaggerConfig {
     @Bean
     fun api(): Docket {
         val apiInfo = ApiInfo(
-            "Api Documentation",
-            "Api Documentation",
-            "1.0",
-            "urn:tos",
-            Contact("Sagar Kumar Nayak", "urllllll", "emaillllll"),
-            "Apache 2.0",
-            "http://www.apache.org/licenses/LICENSE-2.0",
-            ArrayList()
+                "Api Documentation",
+                "Api Documentation",
+                "1.0",
+                "urn:tos",
+                Contact("Sagar Kumar Nayak", "urllllll", "emaillllll"),
+                "Apache 2.0",
+                "http://www.apache.org/licenses/LICENSE-2.0",
+                ArrayList()
         )
         return Docket(DocumentationType.SWAGGER_2)
-            .apiInfo(apiInfo)
+                .apiInfo(apiInfo)
     }
 }

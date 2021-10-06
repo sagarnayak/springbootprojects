@@ -12,21 +12,21 @@ import kotlin.collections.ArrayList
 
 @Entity
 data class Course(
-    @Id
-    var id: String = UUID.randomUUID().toString(),
-    @field:NotNull
-    @field:NotBlank(message = "Please provide name")
-    @field:Size(min = 5, message = "Please provide name")
-    @Column(nullable = false)
-    var name: String = "",
-    @OneToMany(mappedBy = "course")
-    var reviews: List<Review> = ArrayList(),
-    @ManyToMany(mappedBy = "courses")
-    var students: List<Student> = ArrayList(),
-    @field:NotNull
-    @CreationTimestamp
-    var createdOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis),
-    @field:NotNull
-    @UpdateTimestamp
-    var updatedOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis)
+        @Id
+        var id: String = UUID.randomUUID().toString(),
+        @field:NotNull
+        @field:NotBlank(message = "Please provide name")
+        @field:Size(min = 5, message = "Please provide name")
+        @Column(nullable = false)
+        var name: String = "",
+        @OneToMany(mappedBy = "course")
+        var reviews: List<Review> = ArrayList(),
+        @ManyToMany(mappedBy = "courses")
+        var students: List<Student> = ArrayList(),
+        @field:NotNull
+        @CreationTimestamp
+        var createdOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis),
+        @field:NotNull
+        @UpdateTimestamp
+        var updatedOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis)
 )

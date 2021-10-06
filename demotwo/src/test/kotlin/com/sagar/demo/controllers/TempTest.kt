@@ -24,27 +24,27 @@ class TempTest {
     @Test
     fun testOne() {
         Mockito.`when`(temporaryEntityService.getAllItems())
-            .thenReturn(
-                arrayListOf(
-                    TemporaryEntity(
-                        name = "dfbvdfbdfb"
-                    ),
-                    TemporaryEntity(
-                        name = "dfv76dfy7v"
-                    )
+                .thenReturn(
+                        arrayListOf(
+                                TemporaryEntity(
+                                        name = "dfbvdfbdfb"
+                                ),
+                                TemporaryEntity(
+                                        name = "dfv76dfy7v"
+                                )
+                        )
                 )
-            )
 
         val requestBuilder = MockMvcRequestBuilders
-            .get("/temp")
+                .get("/temp")
 
         mockMvc
-            .perform(requestBuilder)
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(
-                MockMvcResultMatchers.content()
-                    .json("[{name:dfbvdfbdfb},{name:dfv76dfy7v}]")
-            )
-            .andReturn()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(
+                        MockMvcResultMatchers.content()
+                                .json("[{name:dfbvdfbdfb},{name:dfv76dfy7v}]")
+                )
+                .andReturn()
     }
 }

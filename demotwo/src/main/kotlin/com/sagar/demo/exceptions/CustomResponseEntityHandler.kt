@@ -18,43 +18,43 @@ class CustomResponseEntityHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(Exception::class)
     public final fun handleAllException(ex: Exception, webRequest: WebRequest): ResponseEntity<Any> {
         return ResponseEntity(
-            ExceptionResponse(
-                "error..."
-            ),
-            HttpStatus.INTERNAL_SERVER_ERROR
+                ExceptionResponse(
+                        "error..."
+                ),
+                HttpStatus.INTERNAL_SERVER_ERROR
         )
     }
 
     override fun handleMethodArgumentNotValid(
-        ex: MethodArgumentNotValidException,
-        headers: HttpHeaders,
-        status: HttpStatus,
-        request: WebRequest
+            ex: MethodArgumentNotValidException,
+            headers: HttpHeaders,
+            status: HttpStatus,
+            request: WebRequest
     ): ResponseEntity<Any> {
         var errorMessage = "Bad Req"
         ex.bindingResult.fieldErrors.forEach {
             errorMessage = it.defaultMessage ?: "Bad Req"
         }
         return ResponseEntity(
-            ExceptionResponse(
-                errorMessage
-            ),
-            HttpStatus.BAD_REQUEST
+                ExceptionResponse(
+                        errorMessage
+                ),
+                HttpStatus.BAD_REQUEST
         )
     }
 
     override fun handleHttpMessageNotReadable(
-        ex: HttpMessageNotReadableException,
-        headers: HttpHeaders,
-        status: HttpStatus,
-        request: WebRequest
+            ex: HttpMessageNotReadableException,
+            headers: HttpHeaders,
+            status: HttpStatus,
+            request: WebRequest
     ): ResponseEntity<Any> {
         val errorMessage = "Invalid arguments"
         return ResponseEntity(
-            ExceptionResponse(
-                errorMessage
-            ),
-            HttpStatus.BAD_REQUEST
+                ExceptionResponse(
+                        errorMessage
+                ),
+                HttpStatus.BAD_REQUEST
         )
     }
 }

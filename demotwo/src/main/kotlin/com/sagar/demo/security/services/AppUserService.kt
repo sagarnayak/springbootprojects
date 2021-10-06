@@ -22,35 +22,35 @@ class AppUserService : UserDetailsService {
         return when (p0) {
             "user1" -> {
                 AppUser(
-                    AppUserRole.USER.getGrantedAuthorities(),
-                    passwordEncoder.encode("password"),
-                    "user1",
-                    true,
-                    true,
-                    true,
-                    true
+                        AppUserRole.USER.getGrantedAuthorities(),
+                        passwordEncoder.encode("password"),
+                        "user1",
+                        true,
+                        true,
+                        true,
+                        true
                 )
             }
             "admin1" -> {
                 AppUser(
-                    AppUserRole.ADMIN.getGrantedAuthorities(),
-                    passwordEncoder.encode("password"),
-                    "admin1",
-                    true,
-                    true,
-                    true,
-                    true
+                        AppUserRole.ADMIN.getGrantedAuthorities(),
+                        passwordEncoder.encode("password"),
+                        "admin1",
+                        true,
+                        true,
+                        true,
+                        true
                 )
             }
             "adminTrainee1" -> {
                 AppUser(
-                    AppUserRole.ADMIN_TRAINEE.getGrantedAuthorities(),
-                    passwordEncoder.encode("password"),
-                    "adminTrainee1",
-                    true,
-                    true,
-                    true,
-                    true
+                        AppUserRole.ADMIN_TRAINEE.getGrantedAuthorities(),
+                        passwordEncoder.encode("password"),
+                        "adminTrainee1",
+                        true,
+                        true,
+                        true,
+                        true
                 )
             }
             else -> {

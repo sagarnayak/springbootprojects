@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 class TemporaryEntityServiceTest {
 
     @InjectMocks
-    lateinit var temporaryEntityService : TemporaryEntityService
+    lateinit var temporaryEntityService: TemporaryEntityService
 
     @Mock
     private lateinit var temporaryEntityRepository: TemporaryEntityRepository
@@ -22,14 +22,14 @@ class TemporaryEntityServiceTest {
     @Test
     fun testOne() {
         Mockito.`when`(temporaryEntityRepository.findAll()).thenReturn(
-            arrayListOf(
-                TemporaryEntity(
-                    name = "dfbvdfbdfb"
-                ),
-                TemporaryEntity(
-                    name = "dfv76dfy7v"
+                arrayListOf(
+                        TemporaryEntity(
+                                name = "dfbvdfbdfb"
+                        ),
+                        TemporaryEntity(
+                                name = "dfv76dfy7v"
+                        )
                 )
-            )
         )
         val result = temporaryEntityService.getAllItems()
         Assertions.assertNotNull(result)

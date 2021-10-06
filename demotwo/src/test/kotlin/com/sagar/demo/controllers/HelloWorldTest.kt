@@ -17,24 +17,24 @@ class HelloWorldTest {
     @Test
     fun testOne() {
         val requestBuilder = MockMvcRequestBuilders
-            .get("/hello")
+                .get("/hello")
 
         mockMvc
-            .perform(requestBuilder)
-            .andExpect(status().isOk)
-            .andExpect(content().string("Hello"))
-            .andReturn()
+                .perform(requestBuilder)
+                .andExpect(status().isOk)
+                .andExpect(content().string("Hello"))
+                .andReturn()
     }
 
     @Test
     fun testTwo() {
         val requestBuilder = MockMvcRequestBuilders
-            .get("/hello/item")
+                .get("/hello/item")
 
         mockMvc
-            .perform(requestBuilder)
-            .andExpect(status().isOk)
-            .andExpect(content().json("{\"description\":\"testing...\"}"))
-            .andReturn()
+                .perform(requestBuilder)
+                .andExpect(status().isOk)
+                .andExpect(content().json("{\"description\":\"testing...\"}"))
+                .andReturn()
     }
 }

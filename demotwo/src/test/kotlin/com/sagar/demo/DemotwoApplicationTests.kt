@@ -17,7 +17,7 @@ class DemotwoApplicationTests {
 
     @Test
     fun testOne() {
-        Mockito.`when`(studentRepository.findAll()).thenReturn(arrayListOf(Student(),Student()))
+        Mockito.`when`(studentRepository.findAll()).thenReturn(arrayListOf(Student(), Student()))
         val result = studentRepository.findAll()
         Assertions.assertNotNull(result)
     }

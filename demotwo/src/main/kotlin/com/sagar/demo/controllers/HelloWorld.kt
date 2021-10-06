@@ -22,7 +22,7 @@ class HelloWorld {
     @GetMapping("/item")
     fun getItem(): Review {
         return Review(
-            description = "testing..."
+                description = "testing..."
         )
     }
 

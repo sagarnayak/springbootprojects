@@ -4,12 +4,13 @@ import com.sagar.demo.security.entity.JWTConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.scheduling.annotation.EnableAsync
 
 
 @SpringBootApplication
 @EnableConfigurationProperties(
-    JWTConfig::class
+        JWTConfig::class
 )
 @EnableAsync
 class DemotwoApplication

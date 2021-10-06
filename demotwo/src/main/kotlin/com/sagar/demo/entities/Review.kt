@@ -14,19 +14,19 @@ import javax.validation.constraints.Size
 
 @Entity
 data class Review(
-    @Id
-    var id: String = UUID.randomUUID().toString(),
-    @ManyToOne
-    var course: Course? = null,
-    @field:NotNull
-    @field:NotBlank(message = "Please provide description")
-    @field:Size(min = 5, message = "Please provide description")
-    @Column(nullable = false)
-    var description: String = "",
-    @field:NotNull
-    @CreationTimestamp
-    var createdOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis),
-    @field:NotNull
-    @UpdateTimestamp
-    var updatedOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis)
+        @Id
+        var id: String = UUID.randomUUID().toString(),
+        @ManyToOne
+        var course: Course? = null,
+        @field:NotNull
+        @field:NotBlank(message = "Please provide description")
+        @field:Size(min = 5, message = "Please provide description")
+        @Column(nullable = false)
+        var description: String = "",
+        @field:NotNull
+        @CreationTimestamp
+        var createdOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis),
+        @field:NotNull
+        @UpdateTimestamp
+        var updatedOn: Timestamp = Timestamp(Calendar.getInstance().timeInMillis)
 )
